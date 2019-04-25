@@ -113,7 +113,7 @@ def enemyAI():
     elif moveChoice >= 34 and moveChoice < 66:
         klingon.phaser_attack(player, random.randint(0,100))
     elif moveChoice >= 66 and moveChoice < 99:
-        klingon.photon_attack()
+        klingon.photon_attack(player, random.randint(1, 5))
     else:
         pass
 
