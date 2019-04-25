@@ -4,6 +4,7 @@
 
 #imports as needed
 from math import sqrt
+from sys import exit
 import random
 
 #right now the map is a global, might change later
@@ -31,7 +32,7 @@ class starship():
         """
         Method that allows a ship to move along the map
         """
-        map[enterprise.coordX-1][enterprise.coordY-1] = "." #prevents the Picard Maneuver
+        map[player.coordX-1][player.coordY-1] = "." #prevents the Picard Maneuver
         map[klingon.coordX-1][klingon.coordY-1] = "."
         self.coordX = newX
         self.coordY = newY
@@ -57,7 +58,7 @@ class starship():
         target.hull = target.hull - photon_intensity
 
 #let's make an example starship
-enterprise = starship("enterprise", 100, 100, 100, 100, 3, 3)
+player = starship("enterprise", 100, 100, 100, 100, 3, 3)
 klingon = starship("d'var", 100, 100, 100, 100, 6, 2)
 
 
@@ -74,18 +75,18 @@ def printHUD():
     """
     This displays the HUD at the start of each return
     """
-    HUDDisplay = f"USS {enterprise.name} - SHIELDS {enterprise.shields} -" \
-                 f"HULL {enterprise.hull} - PHASER ENERGY {enterprise.phaser} -"\
-                 f"TORPEDOS {enterprise.photons} - LOCATION {enterprise.location}"
+    HUDDisplay = f"USS {player.name} - SHIELDS {player.shields} -" \
+                 f"HULL {player.hull} - PHASER ENERGY {player.phaser} -"\
+                 f"TORPEDOS {player.photons} - LOCATION {player.location}"
     print(HUDDisplay)
 
 def printMap():
     """
     This puts our local map on the screen and plots the location of the ships
     """
-    map[enterprise.coordX-1][enterprise.coordY-1] = "E"
+    map[player.coordX-1][player.coordY-1] = "E"
     map[klingon.coordX-1][klingon.coordY-1] = "K"
-    print("The enterprise is at: " + str(enterprise.location))
+    print("The player is at: " + str(player.location))
     for i in range(len(map)):
         print(map[i])
 
@@ -97,16 +98,15 @@ def drawDisplay():
     printHUD()
     printMap()
 
-def testscript():
-    """
-    A chunk of prescripted sequences used for testing new methods
-    """
-    initMap(8,8)
-    drawDisplay()
-    enterprise.move(5, 4)
-    klingon.move(5, 3)
-    klingon.phaser_attack(enterprise, 20)
-    print(enterprise.shields)
+def enemyAI():
+    moveChoice = random.randint(0,100)
+    if moveChoice >= 0 and moveChoice < 33:
+        klingon.move(random.randint(1,8), random.randint(1,8))
+    elif moveChoice >= 34 and moveChoice < 96:
+        klingon.phaser_attack(player, random.randint(0,100))
+    else:
+        pass
+
 
 def gameLoop():
     """
@@ -119,12 +119,17 @@ def gameLoop():
     if prompt == "MOVE":
         inputX = input("Enter X coordinate 1-8: ")
         inputY = input("Enter Y coordinate 1-8: ")
-        enterprise.move(int(inputX), int(inputY))
+        player.move(int(inputX), int(inputY))
+        enemyAI()
     elif prompt == "ATTACK":
         inputStrength = input("Enter strength of phaster attack 1-100: ")
-        enterprise.phaser_attack(klingon, int(inputStrength))
+        player.phaser_attack(klingon, int(inputStrength))
+        enemyAI()
     elif prompt == "HELP":
         print("Commands are MOVE and ATTACK")
+        gameLoop()
+    elif prompt == "EXIT":
+        exit()
     else:
         print("Try again.")
         gameLoop()
@@ -132,4 +137,3 @@ def gameLoop():
 
 initMap(8,8)
 gameLoop()
-#testscript()
