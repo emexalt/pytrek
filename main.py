@@ -95,8 +95,7 @@ def printMap():
 
 def drawDisplay():
     """
-    On each turn, draws the HUD and the Map on the terminal. May also become
-    home to ship-redraw code from the move method once system is interactive.
+    On each turn, draws the HUD and the Map on the terminal.
     """
     printHUD()
     printMap()
@@ -111,8 +110,10 @@ def enemyAI():
     moveChoice = random.randint(0,100)
     if moveChoice >= 0 and moveChoice < 33:
         klingon.move(random.randint(1,8), random.randint(1,8))
-    elif moveChoice >= 34 and moveChoice < 96:
+    elif moveChoice >= 34 and moveChoice < 66:
         klingon.phaser_attack(player, random.randint(0,100))
+    elif moveChoice >= 66 and moveChoice < 99:
+        klingon.photon_attack()
     else:
         pass
 
