@@ -17,7 +17,9 @@ class starship():
 
     def __init__(self, name, shields, hull, phaser, photons, coordX, coordY):
         """
-        The class constructor!
+        Starships have many attributes; this is an incomplete list that is useful 
+        for our purposes, and that will likely expand later on as our models of 
+        starships become slightly more complex.
         """
         self.name = name
         self.shields = shields
@@ -56,6 +58,7 @@ class starship():
         photon_intensity = 8 + 2 * torp_count
         self.photons = self.photons - torp_count
         target.hull = target.hull - photon_intensity
+        print(self.name + " attacks "  + target.name + " for " +  str(photon_intensity) + " damage.")
 
 #let's make an example starship
 player = starship("enterprise", 100, 100, 100, 100, 3, 3)
@@ -99,6 +102,12 @@ def drawDisplay():
     printMap()
 
 def enemyAI():
+    """
+    As it stands, enemy decision making is based on an RNG that is
+    weighted toward attacking rather than moving, because, well, Klingons
+    would be more likely to attack than to flee.
+    """
+    #TODO: Make photon torpedo attacks a possible enemy action
     moveChoice = random.randint(0,100)
     if moveChoice >= 0 and moveChoice < 33:
         klingon.move(random.randint(1,8), random.randint(1,8))
@@ -113,17 +122,20 @@ def gameLoop():
     INCOMPLETE: the main interactive loop
     """
     #TODO: Move prompt into own function
-    #TODO: Write code to control Klingon behavior
     drawDisplay()
-    prompt = input("Enter your command, Captain: ")
+    prompt = input("Enter your command, Captain: ").upper()
     if prompt == "MOVE":
         inputX = input("Enter X coordinate 1-8: ")
         inputY = input("Enter Y coordinate 1-8: ")
         player.move(int(inputX), int(inputY))
         enemyAI()
-    elif prompt == "ATTACK":
+    elif prompt == "PHASER":
         inputStrength = input("Enter strength of phaster attack 1-100: ")
         player.phaser_attack(klingon, int(inputStrength))
+        enemyAI()
+    elif prompt == "PHOTON":
+        inputPhotonCount = input("How many torpedoes, Captain? ")
+        player.photon_attack(klingon, int(inputPhotonCount))
         enemyAI()
     elif prompt == "HELP":
         print("Commands are MOVE and ATTACK")
@@ -133,6 +145,7 @@ def gameLoop():
     else:
         print("Try again.")
         gameLoop()
+    enemyAI()
     gameLoop()
 
 initMap(8,8)
