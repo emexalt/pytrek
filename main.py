@@ -17,8 +17,8 @@ class starship():
 
     def __init__(self, name, shields, hull, phaser, photons, coordX, coordY):
         """
-        Starships have many attributes; this is an incomplete list that is useful 
-        for our purposes, and that will likely expand later on as our models of 
+        Starships have many attributes; this is an incomplete list that is useful
+        for our purposes, and that will likely expand later on as our models of
         starships become slightly more complex.
         """
         self.name = name
