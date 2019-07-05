@@ -87,8 +87,8 @@ def printMap():
     """
     This puts our local map on the screen and plots the location of the ships
     """
-    map[player.coordX-1][player.coordY-1] = "E"
-    map[klingon.coordX-1][klingon.coordY-1] = "K"
+    map[player.coordX-1][player.coordY-1] = "🚀"
+    map[klingon.coordX-1][klingon.coordY-1] = "🛰️"
     print("The player is at: " + str(player.location))
     for i in range(len(map)):
         print(map[i])
