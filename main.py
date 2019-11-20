@@ -12,8 +12,8 @@ import random, starship
 map = []
 
 #let's make an example starship
-player = starship("enterprise", 100, 100, 100, 100, 3, 3)
-klingon = starship("d'var", 100, 100, 100, 100, 6, 2)
+player = starship.starship("enterprise", 100, 100, 100, 100, 3, 3)
+klingon = starship.starship("d'var", 100, 100, 100, 100, 6, 2)
 
 
 def initMap(xsize, ysize):
