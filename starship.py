@@ -1,6 +1,7 @@
-#pytrek/starship.py
+# pytrek/starship.py
 
 from math import sqrt
+
 
 class starship():
     """
@@ -26,11 +27,9 @@ class starship():
         """
         Method that allows a ship to move along the map
         """
-        map[player.coordX-1][player.coordY-1] = "." #prevents the Picard Maneuver
-        map[klingon.coordX-1][klingon.coordY-1] = "."
         self.coordX = newX
         self.coordY = newY
-        self.location = (newX,newY)
+        self.location = (newX, newY)
 
     def phaser_attack(self, target, strength):
         """
@@ -38,10 +37,13 @@ class starship():
         In the current implementation, the phaser strike weakens as a direct
         function of the distance of the shot.
         """
-        phaser_intensity = strength - sqrt((self.coordX - target.coordX)**2 + (self.coordY - target.coordY)**2)
+        phaser_intensity = strength - \
+            sqrt((self.coordX - target.coordX)**2 +
+                 (self.coordY - target.coordY)**2)
         self.phaser = self.phaser - phaser_intensity
         target.shields = target.shields - phaser_intensity
-        print(self.name + " attacks "  + target.name + " for " +  str(phaser_intensity) + " damage.")
+        print(self.name + " attacks " + target.name +
+              " for " + str(phaser_intensity) + " damage.")
 
     def photon_attack(self, target, torp_count):
         """
@@ -50,4 +52,5 @@ class starship():
         photon_intensity = 8 + 2 * torp_count
         self.photons = self.photons - torp_count
         target.hull = target.hull - photon_intensity
-        print(self.name + " attacks "  + target.name + " for " +  str(photon_intensity) + " damage.")
+        print(self.name + " attacks " + target.name +
+              " for " + str(photon_intensity) + " damage.")

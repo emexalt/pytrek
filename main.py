@@ -1,18 +1,19 @@
-#pytrek/main.py
-#A conversion of the old mainframe grid-based space game
-#sdf, (c) 2018; emfol (c) 2019
+# pytrek/main.py
+# A conversion of the old mainframe grid-based space game
+# sdf, (c) 2018; emfol (c) 2019
 
-#imports as needed
+# imports as needed
 from math import sqrt
 from sys import exit
-import random, starship
+import random
+import starship
 
 
-#right now the map is a global, might change later
+# right now the map is a global, might change later
 map = []
 
-#let's make an example starship
-player = starship.starship("enterprise", 100, 100, 100, 100, 3, 3)
+# let's make an example starship
+player = starship.starship("enter>prise", 100, 100, 100, 100, 3, 3)
 klingon = starship.starship("d'var", 100, 100, 100, 100, 6, 2)
 
 
@@ -25,6 +26,7 @@ def initMap(xsize, ysize):
         for j in range(ysize):
             map[i].append(".")
 
+
 def printHUD():
     """
     This displays the HUD at the start of each return
@@ -33,6 +35,7 @@ def printHUD():
                  f"HULL {player.hull} - PHASER ENERGY {player.phaser} -"\
                  f"TORPEDOS {player.photons} - LOCATION {player.location}"
     print(HUDDisplay)
+
 
 def printMap():
     """
@@ -44,6 +47,7 @@ def printMap():
     for i in range(len(map)):
         print(map[i])
 
+
 def drawDisplay():
     """
     On each turn, draws the HUD and the Map on the terminal.
@@ -51,18 +55,20 @@ def drawDisplay():
     printHUD()
     printMap()
 
+
 def enemyAI():
     """
     As it stands, enemy decision making is based on an RNG that is
     weighted toward attacking rather than moving, because, well, Klingons
     would be more likely to attack than to flee.
     """
-    #TODO: Make photon torpedo attacks a possible enemy action
-    moveChoice = random.randint(0,100)
+    # TODO: Make photon torpedo attacks a possible enemy action
+    moveChoice = random.randint(0, 100)
     if moveChoice >= 0 and moveChoice < 33:
-        klingon.move(random.randint(1,8), random.randint(1,8))
+        map[klingon.coordX - 1][klingon.coordY - 1] = "."
+        klingon.move(random.randint(1, 8), random.randint(1, 8))
     elif moveChoice >= 34 and moveChoice < 66:
-        klingon.phaser_attack(player, random.randint(0,100))
+        klingon.phaser_attack(player, random.randint(0, 100))
     elif moveChoice > 66 and moveChoice < 99:
         klingon.photon_attack(player, random.randint(1, 5))
     else:
@@ -73,12 +79,13 @@ def gameLoop():
     """
     INCOMPLETE: the main interactive loop
     """
-    #TODO: Move prompt into own function
+    # TODO: Move prompt into own function
     drawDisplay()
     prompt = input("Enter your command, Captain: ").upper()
     if prompt == "MOVE":
         inputX = input("Enter X coordinate 1-8: ")
         inputY = input("Enter Y coordinate 1-8: ")
+        map[player.coordX - 1][player.coordY - 1] = "."
         player.move(int(inputX), int(inputY))
         enemyAI()
     elif prompt == "PHASER":
@@ -100,5 +107,6 @@ def gameLoop():
     enemyAI()
     gameLoop()
 
-initMap(8,8)
+
+initMap(8, 8)
 gameLoop()
